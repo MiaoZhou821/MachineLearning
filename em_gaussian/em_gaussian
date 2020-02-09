@@ -28,9 +28,6 @@ def init_model(args):
             sigmas = np.zeros((args.cluster_num, 2, 2))
         else:
             sigmas = np.zeros((2, 2))
-        # TODO: randomly initialize clusters (lambdas, mus, and sigmas)
-        #np.random.seed(1)
-        #mus = np.random.rand(args.cluster_num, 2)
         lambdas[:] = 1.0 / args.cluster_num
         mus = np.random.random([mus.shape[0], mus.shape[1]])
         if not args.tied:
@@ -57,17 +54,12 @@ def init_model(args):
         sigmas = np.asarray(sigmas)
         args.cluster_num = len(lambdas)
 
-    # TODO: do whatever you want to pack the lambdas, mus, and sigmas into the model variable (just a tuple, or a class, etc.)
-    # NOTE: if args.tied was provided, sigmas will have a different shape
     model = lambdas, mus, sigmas
     return model
 
 
 def train_model(model, train_xs, dev_xs, args):
     from scipy.stats import multivariate_normal
-    # NOTE: you can use multivariate_normal like this:
-    # probability_of_xn_given_mu_and_sigma = multivariate_normal(mean=mu, cov=sigma).pdf(xn)
-    # TODO: train the model, respecting args (note that dev_xs is None if args.nodev is True)
     lambdas, mus, sigmas = model
 
     train_ll = []
